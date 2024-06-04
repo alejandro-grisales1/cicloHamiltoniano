@@ -35,8 +35,6 @@ int main(){
         getline(stream, x_str, delimitador);
         getline(stream, y_str, delimitador);
 
-        cout << str << x_str << y_str;
-
         // Convertir las coordenadas a double
         x = stod(x_str);
         y = stod(y_str);
@@ -46,7 +44,7 @@ int main(){
 
         nombre[0] = c[0];
         nombre[1] = '\0';
-        cout << nombre << x << y;
+        cout << "Nodo: " << nombre << "("<< x << "," << y << ") ";
 
         Nodo *nodo = new Nodo(nombre, x, y);
         li.Agregar(nodo);
@@ -68,7 +66,6 @@ int main(){
       cin >> y;
       Nodo *nodo = new Nodo(nombre, x, y);
       li.Agregar(nodo);
-      cout << "Nodo agregado exitosamente." << endl;
     }
     else if (op == 3)
     {
