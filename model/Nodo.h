@@ -7,7 +7,7 @@ using namespace std;
 
 struct Nodo
 {
-  char *nombre = (char*)malloc(sizeof(char)*1);
+  char *nombre = (char*)malloc(sizeof(char)*2);
   double x;
   double y;
   Nodo *siguiente;
@@ -22,7 +22,7 @@ struct Nodo
 
   //metodo para mostrar los nodos
   void mostrarNodo(){
-    cout << this->nombre << ": " << "(" << this->x << "," << this->y << ")" << " -> ";
+    cout << this->nombre << ": " << "(" << this->x << "," << this->y << ")";
   }
 };
 

@@ -18,11 +18,13 @@ struct View
 
   void menuUno(){
     cout << endl
-         << "1. AGREGAR NODO" << endl
-         << "2. ELIMINAR NODO" << endl
-         << "3. ACTUALIZAR NODO" << endl
-         << "4. SIGUIENTE" << endl
-         << "5. SALIR" << endl;
+         << "1. AGREGAR LOS NODOS DEL ARCHIVO" << endl
+         << "2. AGREGAR NODO" << endl
+         << "3. ELIMINAR NODO" << endl
+         << "4. ACTUALIZAR NODO" << endl
+         << "5. MOSTRAR NODOS" << endl
+         << "6. SIGUIENTE" << endl
+         << "7. SALIR" << endl;
   }
 
   void menuDos(){
