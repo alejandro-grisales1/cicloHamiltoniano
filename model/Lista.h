@@ -20,18 +20,32 @@ struct Lista
     this->numero = 0;
   }
 
+  //este metodo de agregar permite agregar nodos a la lista si el nodo existe 
   void Agregar(Nodo*&nuevoNodo){
     if (this->cabeza == NULL && this->cola == NULL)
     {
       this->cabeza = nuevoNodo;
     }else
     {
+      Nodo* iterador = this->cabeza;
+    while (iterador != NULL)
+        {
+          if (iterador->nombre[0] == nuevoNodo->nombre[0])
+          {
+            cout << endl
+                 << "El nodo: " << iterador->nombre << " ya esta creado." << endl;
+            return;
+            }
+            iterador = iterador->siguiente;
+        }
       this->cola->siguiente = nuevoNodo;
     }
     this->cola = nuevoNodo;
     ++this->numero;
+    cout << "Nodo agregado exitosamente." << endl;
   }
 
+  //esta opcion elimina el nodo seleccionado si este esta en la lista
   void Eliminar(char * nombre){
     if (this->cabeza == NULL)
     {
@@ -77,9 +91,40 @@ struct Lista
         cout << endl << "Nodo eliminado con exito!!!" << endl;
         --this->numero;
     }
-}
+  }
 
+  //metodo para actualizar las coordenadas de un nodo
+  void Actualizar(){
+    if (this->cabeza == NULL)
+    {
+        cout << endl << "No hay nodos para actulizar!!!" << endl;
+    }else
+    {
+      char *NodoActualizable = (char *)malloc(sizeof(char) * 2);
+      cout << endl
+           << "Ingresa el nombre del nodo que desea actualizar: ";
+      cin >> NodoActualizable;
+      Nodo *iterador = this->cabeza;
+      while (iterador != NULL )
+        {
+          if (iterador->nombre[0] == NodoActualizable[0])
+            {
+              cout << endl
+                   << "Ingrese la nueva coordenada x del nodo " << iterador->nombre << ": ";
+              cin >> iterador->x;
+              cout << "Ingrese la nueva coordenada y del nodo " << iterador->nombre << ": ";
+              cin >> iterador->y;
+              cout << endl
+                   << "Nodo actualizado exitosamente!!!" << endl;
+              return;
+            }
+          iterador = iterador->siguiente;
+        }
+        cout << endl << "No se encontro el nodo..." << endl;
+    }
+  }
 
+  //este metodo permite mostrar los nodos con sus atributos
   void MostrarNodos(){
     cout<< endl <<"Cantidad de nodos: "<<this->numero<<endl;
     Nodo * iterador = this->cabeza;
@@ -92,6 +137,7 @@ struct Lista
     cout << endl;
   }
 
+  //este metodo permite mostrar los nodos y sus enlaces
   void Mostrar(){
     cout<< endl <<"Contenido de la lista: "<<endl;
     cout<<"Número del nodo: "<<this->numero<<endl;

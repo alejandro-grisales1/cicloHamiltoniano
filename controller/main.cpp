@@ -9,16 +9,21 @@
 using namespace std;
 
 int main(){
+  // se crean los atributos
   View vi;
   Lista li;
   int op;
 
+  //se hace el llamado al metodo bienvenida
   vi.bienvenida();
 
+  //se crea un bucle para que muestre el menu repetida mente hasta que se seleccione la opcion de salir
   while (op != 7)
   {
+    //se muestra el primer menu del programa y se recive la opcion seleccionada
     vi.menuUno();
     op = vi.opcion();
+    //la opcion uno permite leer el archivo de Coordenadas.csv y se crean los nodos y se crea una lista enlazada simple
     if (op == 1)
     {
       ifstream archivo(COORDENADAS);
@@ -51,13 +56,15 @@ int main(){
     }
     archivo.close();
     }
+    //esta opcion permite agregar nodos a la lista manualmente
     else if (op == 2)
     {
+      li.MostrarNodos();
       double x;
       double y;
       char *nombre = (char*)malloc(sizeof(char)*2);
       cout << endl
-           << "Ingresa el caracter (nombre) de la coordenada: ";
+           << "Ingresa el caracter (nombre) de la nueva coordenada: ";
       cin >> nombre;
       cout << endl
            << "Ingrese la coordenada x del nuevo nodo: ";
@@ -67,6 +74,7 @@ int main(){
       Nodo *nodo = new Nodo(nombre, x, y);
       li.Agregar(nodo);
     }
+    //esta opcion permite eliminar nodos manualmente
     else if (op == 3)
     {
       li.MostrarNodos();
@@ -78,8 +86,10 @@ int main(){
     }
     else if (op == 4)
     {
-      /* code */
-    }else if (op == 5)
+      li.MostrarNodos();
+      li.Actualizar();
+    }
+    else if (op == 5)
     {
       li.Mostrar();
     }
