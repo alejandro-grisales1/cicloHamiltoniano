@@ -1,13 +1,14 @@
 #ifndef MatrizAdyacencia_H
 #define MatrizAdyacencia_H
 #include "Lista.h"
+#include "Arista.h"
 struct MatrizAdyacencia
 {
     Arista ** matrizAdyacencia;
     
 
     MatrizAdyacencia(Lista listaNodos){
-        this->matrizAdyacencia = (Arista**)malloc(sizeof(Arista))
+        this->matrizAdyacencia = (Arista**)malloc(sizeof(Arista*)*)
     }
     // c, d = 4;
     // A , C = 5;
