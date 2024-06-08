@@ -6,7 +6,7 @@ using namespace std;
 struct Basedatos
 {
     Lista listaNodos;
-    // Arista ** matrizAdyacencia = ;
+ 
 
 
 };
