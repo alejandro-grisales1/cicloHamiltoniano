@@ -22,7 +22,7 @@ struct Lista
   }
 
   //este metodo de agregar permite agregar nodos a la lista si el nodo existe 
-  void Agregar(Nodo*&nuevoNodo){
+  void Agregar(Nodo*&nuevoNodo,Tablahash tabla){
     //si la lista esta vacia agrega el elemento a la cabeza y a la cola
     if (this->cabeza == NULL && this->cola == NULL)
     {
@@ -43,14 +43,16 @@ struct Lista
         }
       this->cola->siguiente = nuevoNodo;
       this->cola = nuevoNodo;
-      // Arista *nuevaAristaCabeza = new Arista(this->cabeza, this->cola);
+      Arista *nuevaAristaCabeza = new Arista(this->cabeza, this->cola);
+      tabla.Adicionar(nuevaAristaCabeza);
 
-      // Nodo *iterador2 = this->cabeza;
-      // while (iterador2 != this->cola)
-      // {
-      //   Arista *nuevaAristaCola = new Arista(this->cola, this->cabeza);
-      //   iterador2 = iterador2->siguiente;
-      // }
+      Nodo *iterador2 = this->cabeza;
+      while (iterador2 != this->cola)
+      {
+        Arista *nuevaAristaCola = new Arista(this->cola, iterador2);
+        tabla.Adicionar(nuevaAristaCola);
+        iterador2 = iterador2->siguiente;
+      }
     }
     // this->cola = nuevoNodo;
     ++this->numero;

@@ -4,12 +4,12 @@
 #include "Arista.h"
 struct MatrizAdyacencia
 {
-    Arista ** matrizAdyacencia;
+    // Arista ** matrizAdyacencia;
     
 
-    MatrizAdyacencia(Lista listaNodos){
-        this->matrizAdyacencia = (Arista**)malloc(sizeof(Arista*)*)
-    }
+    // MatrizAdyacencia(Lista listaNodos){
+    //     this->matrizAdyacencia = (Arista**)malloc(sizeof(Arista*)*)
+    // }
     // c, d = 4;
     // A , C = 5;
     //  e, c = 6;

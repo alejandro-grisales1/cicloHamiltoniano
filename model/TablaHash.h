@@ -12,7 +12,7 @@ struct Tablahash
     // char** contenido;
     // Arista* nombre;
     Arista* contenido;
-    int cantidad = 230;
+    int cantidad = 500;
 
     //constructor
     Tablahash(){
@@ -29,12 +29,15 @@ struct Tablahash
     //metodo para adicionar arista a la tabla hash
     void Adicionar(Arista *&arista) {
       char* Nombre = arista->concatenar;
+      // cout << "este es el nombre " << Nombre;
       int item = function_hash(Nombre);
+      // cout << item;
       // manejo de colision
       while (this->contenido[item].concatenar != nullptr)
       {
         item = (item + 1) % cantidad;
         }
+        // this->contenido[item].concatenar = Nombre;
         this->contenido[item].concatenar = (char*)malloc(sizeof(char) * 2);
         char* iterador = this->contenido[item].concatenar;
         while (*Nombre) {
