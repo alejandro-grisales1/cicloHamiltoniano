@@ -13,6 +13,7 @@ int main(){
   LeerCoordenadas leer;
   View vi;
   Lista li;
+  Tablahash tabla;
 
   //variables
   int op;
@@ -31,7 +32,8 @@ int main(){
     if (op == 1)
     {
       //la opcion uno lee el archivo .csv y crea una lista enlazada simple con nodos
-      leer.leerArchivo(COORDENADAS, li);
+      leer.leerArchivo(COORDENADAS, li,tabla);
+      tabla.mostrarTabla();
     }
     else if (op == 2)
     {
@@ -50,7 +52,7 @@ int main(){
       vi.v2_3();
       cin >> y;
       Nodo *nodo = new Nodo(nombre, x, y);
-      li.Agregar(nodo);
+      li.Agregar(nodo,tabla);
     }
     else if (op == 3)
     {

@@ -5,7 +5,7 @@
 using namespace std;
 struct Basedatos
 {
-    Lista listaNodos;
+    // Lista listaNodos;
  
 
 

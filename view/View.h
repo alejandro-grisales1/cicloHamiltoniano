@@ -75,7 +75,6 @@ struct View
     cout << endl
                << "Volviendo al menu principal..." << endl;
   }
-
 };
 
 #endif

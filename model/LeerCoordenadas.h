@@ -14,7 +14,7 @@ struct LeerCoordenadas
   string linea;
   char delimitador = ',';
 
-  void leerArchivo(const string &nombreArchivo,Lista &lista)
+  void leerArchivo(const string &nombreArchivo,Lista &lista,Tablahash tabla)
   {
     ifstream archivo(nombreArchivo);
     while (getline(archivo, linea))
@@ -40,7 +40,7 @@ struct LeerCoordenadas
       cout << "Nodo: " << nombre << "("<< x << "," << y << ") ";
 
       Nodo *nodo = new Nodo(nombre, x, y);
-      lista.Agregar(nodo);
+      lista.Agregar(nodo,tabla);
     }
     archivo.close();
     }
