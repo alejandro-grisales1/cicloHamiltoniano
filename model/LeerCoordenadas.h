@@ -4,18 +4,17 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Nodo.h"
+// #include "Nodo.h"
 #include "Lista.h"
 
 using namespace std;
 
 struct LeerCoordenadas
 {
-  Lista li;
   string linea;
   char delimitador = ',';
 
-  void leerArchivo(const string &nombreArchivo)
+  void leerArchivo(const string &nombreArchivo,Lista &lista)
   {
     ifstream archivo(nombreArchivo);
     while (getline(archivo, linea))
@@ -38,10 +37,10 @@ struct LeerCoordenadas
 
       nombre[0] = c[0];
       nombre[1] = '\0';
-      cout << nombre << x << y;
+      cout << "Nodo: " << nombre << "("<< x << "," << y << ") ";
 
       Nodo *nodo = new Nodo(nombre, x, y);
-      li.Agregar(nodo);
+      lista.Agregar(nodo);
     }
     archivo.close();
     }
