@@ -26,8 +26,8 @@ struct Tablahash
         }
     }
 
-    //metodo para adicionar elemento a la tabla hash
-    void Adicionar(Arista * arista) {
+    //metodo para adicionar arista a la tabla hash
+    void Adicionar(Arista *&arista) {
       char* Nombre = arista->concatenar;
       int item = function_hash(Nombre);
       // manejo de colision
@@ -43,6 +43,21 @@ struct Tablahash
             iterador++;
         }
         this->contenido[item].distanciaEuclediana = arista->distanciaEuclediana;
+    }
+
+    void Eliminar(char * Nombre){
+      int item = function_hash(Nombre);
+
+      //se itera hasta encontrar la arista, si cuando se agrego hubo una colision 
+      while (this->contenido[item].concatenar != Nombre)
+      {
+        item = (item + 1) % cantidad;
+      }
+      if (this->contenido[item].concatenar == Nombre)
+      {
+        this->contenido[item].concatenar = NULL;
+        this->contenido[item].distanciaEuclediana = 0.0;
+      }
     }
 
     //metodo para mostrar la tabla hash
@@ -68,6 +83,19 @@ struct Tablahash
     //metodo para mostrar el elemento pasandole un indice
     void mostrarElemento(int indice){
       cout << "Posición [" << indice << "] Nombre: " << this->contenido[indice].concatenar << " Distancia: " << this->contenido[indice].distanciaEuclediana << endl;
+    }
+
+    //metodo para obtener la distancia de las aristas almacenadas en la tabla hash
+    double obtenerDistancia(char*nombre){
+      int item = function_hash(nombre);
+
+      //se itera hasta encontrar la arista, si cuando se agrego hubo una colision 
+      while (this->contenido[item].concatenar != nombre)
+      {
+        item = (item + 1) % cantidad;
+      }
+
+      return this->contenido[item].distanciaEuclediana;
     }
 
     //funcion para obtener el valor del indice en el que se va a almacenar

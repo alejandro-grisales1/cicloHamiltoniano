@@ -9,96 +9,79 @@
 using namespace std;
 
 int main(){
-  // se crean los atributos
+  //objetos
+  LeerCoordenadas leer;
   View vi;
   Lista li;
+
+  //variables
   int op;
 
-  //se hace el llamado al metodo bienvenida
+  //mostrar bienvenida
   vi.bienvenida();
 
-  //se crea un bucle para que muestre el menu repetida mente hasta que se seleccione la opcion de salir
+  //bucle de menu uno
   while (op != 7)
   {
-    //se muestra el primer menu del programa y se recive la opcion seleccionada
+    //mostrar menu uno
     vi.menuUno();
-    op = vi.opcion();
-    //la opcion uno permite leer el archivo de Coordenadas.csv y se crean los nodos y se crea una lista enlazada simple
+    //pedir opcion al usuario
+    cin >> op;
+
     if (op == 1)
     {
-      ifstream archivo(COORDENADAS);
-      string linea;
-      char delimitador = ',';
-      while (getline(archivo, linea))
-      {
-        // Aquí puedes procesar cada línea
-        // Por ejemplo, puedes usar stringstream para dividir la línea por comas
-        stringstream stream(linea);
-        string str, x_str, y_str;
-        double x, y;
-        getline(stream, str, delimitador);
-        getline(stream, x_str, delimitador);
-        getline(stream, y_str, delimitador);
-
-        // Convertir las coordenadas a double
-        x = stod(x_str);
-        y = stod(y_str);
-
-        const char *c = str.c_str();
-        char *nombre = (char *)malloc(sizeof(char) * 2);
-
-        nombre[0] = c[0];
-        nombre[1] = '\0';
-        cout << "Nodo: " << nombre << "("<< x << "," << y << ") ";
-
-        Nodo *nodo = new Nodo(nombre, x, y);
-        li.Agregar(nodo);
+      //la opcion uno lee el archivo .csv y crea una lista enlazada simple con nodos
+      leer.leerArchivo(COORDENADAS, li);
     }
-    archivo.close();
-    }
-    //esta opcion permite agregar nodos a la lista manualmente
     else if (op == 2)
     {
+      //la opcion dos muestra los nodos que hay y deja ingresar un nuevo nodo
       li.MostrarNodos();
       double x;
       double y;
       char *nombre = (char*)malloc(sizeof(char)*2);
-      cout << endl
-           << "Ingresa el caracter (nombre) de la nueva coordenada: ";
+      //pide el nombre para agregar
+      vi.v2_1();
       cin >> nombre;
-      cout << endl
-           << "Ingrese la coordenada x del nuevo nodo: ";
+      //pide la coordenada x
+      vi.v2_2();
       cin >> x;
-      cout << "Ingrese la coordenada y del nuevo nodo: ";
+      //pide la coordenada y
+      vi.v2_3();
       cin >> y;
       Nodo *nodo = new Nodo(nombre, x, y);
       li.Agregar(nodo);
     }
-    //esta opcion permite eliminar nodos manualmente
     else if (op == 3)
     {
+      //la opcion tres muestra los nodos que hay y deja eliminar un nodo
       li.MostrarNodos();
       char *nombre = (char *)malloc(sizeof(char) * 2);
-      cout << endl
-           << "Ingresa el caracter (nombre) de la coordenada que deseas eliminar: ";
+      //pide el nombre para eliminar
+      vi.v3_1();
       cin >> nombre;
       li.Eliminar(nombre);
     }
     else if (op == 4)
     {
+      //la opcion cuatro muestra los nodos que hay y deja actualizar un nodo existente
       li.MostrarNodos();
       li.Actualizar();
     }
     else if (op == 5)
     {
+      //la opcion cinco muestra los nodos con sus punteros
       li.Mostrar();
     }
     else if (op == 6)
     {
+      //la opcion seis genera bucle de menu dos
       while (op != 7)
       {
+        //muestra el menu dos 
         vi.menuDos();
-        op = vi.opcion();
+        //pedir opcion al usuario
+        cin >> op;
         if (op == 1)
         {
           /* code */
@@ -116,29 +99,31 @@ int main(){
           /* code */
         }else if (op == 6)
         {
-          cout << endl
-               << "Volviendo al menu principal..." << endl;
+          //vuelve al menu uno
+          vi.m2v6();
           break;
-        }else if (op == 7)
+        }
+        else if (op == 7)
         {
+          //finaliza el programa
+          vi.salir();
           return 0;
         }else
         {
-          cout << endl
-           << "Opcion incorrecta, ingresa una opcion correcta!!!" << endl;
+          vi.opcionIncorrecta();
         }
-        
       }
     }else if (op == 7)
     {
-      cout << endl
-           << "Saliendo del programa..." << endl;
+      //la opcion siete sale del programa
+      vi.salir();
       break;
     }else
     {
-      cout << endl
-           << "Opcion incorrecta, ingresa una opcion correcta!!!" << endl;
+      //si ingresa otra opcion muestra un error
+      vi.opcionIncorrecta();
     }
   }
+  //finaliza el programa
   return 0;
 }

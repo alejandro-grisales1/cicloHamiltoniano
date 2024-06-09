@@ -24,7 +24,9 @@ struct View
          << "4. ACTUALIZAR NODO" << endl
          << "5. MOSTRAR NODOS" << endl
          << "6. SIGUIENTE" << endl
-         << "7. SALIR" << endl;
+         << "7. SALIR" << endl
+         << endl
+         <<"INGRESE LA OPCION: ";
   }
 
   void menuDos(){
@@ -35,16 +37,45 @@ struct View
          << "4. INSERCIÓN MÁS CERCANA" << endl
          << "5. INSERCIÓN MÁS CERCANA CON 2-OPT" << endl
          << "6. ANTERIOIR" << endl
-         << "7. SALIR" << endl;
+         << "7. SALIR" << endl
+         << endl
+         <<"INGRESE LA OPCION: ";
   }
 
-  int opcion(){
-    int op;
+  void v2_1(){
     cout << endl
-         << "INGRESE LA OPCION: ";
-    cin >> op;
-    return op;
+           << "Ingresa el caracter (nombre) de la nueva coordenada: ";
   }
+
+  void v2_2(){
+    cout << endl
+           << "Ingrese la coordenada x del nuevo nodo: ";
+  }
+
+  void v2_3(){
+    cout << "Ingrese la coordenada y del nuevo nodo: ";
+  }
+
+  void v3_1(){
+    cout << endl
+           << "Ingresa el caracter (nombre) de la coordenada que deseas eliminar: ";
+  }
+
+  void salir(){
+    cout << endl
+           << "Saliendo del programa..." << endl;
+  }
+
+  void opcionIncorrecta(){
+    cout << endl
+           << "Opcion incorrecta, ingresa una opcion correcta!!!" << endl;
+  }
+
+  void m2v6(){
+    cout << endl
+               << "Volviendo al menu principal..." << endl;
+  }
+
 };
 
 #endif

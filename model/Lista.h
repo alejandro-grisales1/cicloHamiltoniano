@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Nodo.h"
+#include "TablaHash.h"
 
 using namespace std;
 
@@ -22,14 +23,16 @@ struct Lista
 
   //este metodo de agregar permite agregar nodos a la lista si el nodo existe 
   void Agregar(Nodo*&nuevoNodo){
+    //si la lista esta vacia agrega el elemento a la cabeza y a la cola
     if (this->cabeza == NULL && this->cola == NULL)
     {
       this->cabeza = nuevoNodo;
+      this->cola = nuevoNodo;
     }else
     {
+      //se itera la lista y busca que no se agregue un nodo duplicado
       Nodo* iterador = this->cabeza;
-    while (iterador != NULL)
-        {
+      while (iterador != NULL){
           if (iterador->nombre[0] == nuevoNodo->nombre[0])
           {
             cout << endl
@@ -39,8 +42,17 @@ struct Lista
             iterador = iterador->siguiente;
         }
       this->cola->siguiente = nuevoNodo;
+      this->cola = nuevoNodo;
+      // Arista *nuevaAristaCabeza = new Arista(this->cabeza, this->cola);
+
+      // Nodo *iterador2 = this->cabeza;
+      // while (iterador2 != this->cola)
+      // {
+      //   Arista *nuevaAristaCola = new Arista(this->cola, this->cabeza);
+      //   iterador2 = iterador2->siguiente;
+      // }
     }
-    this->cola = nuevoNodo;
+    // this->cola = nuevoNodo;
     ++this->numero;
     cout << "Nodo agregado exitosamente." << endl;
   }
