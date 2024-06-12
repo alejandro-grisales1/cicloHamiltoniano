@@ -12,18 +12,11 @@ struct Tablahash {
     int cantidad = 500;
 
     Tablahash() {
-        this->contenido = new Arista[this->cantidad];
+        this->contenido = (Arista *)malloc(sizeof(Arista ) * this->cantidad);
         for (int i = 0; i < cantidad; ++i) {
             this->contenido[i].concatenar = nullptr;
             this->contenido[i].distanciaEuclediana = 0.0;
         }
-    }
-
-    ~Tablahash() {
-        for (int i = 0; i < cantidad; ++i) {
-            delete this->contenido[i].concatenar;
-        }
-        delete this->contenido;
     }
 
     void Adicionar(Arista *&arista) {
@@ -41,6 +34,7 @@ struct Tablahash {
     }
 
     // Asignar y copiar la cadena
+    this->contenido[item].concatenar = (char*)malloc(sizeof(char) * 5);
     strcpy(this->contenido[item].concatenar, Nombre);
     this->contenido[item].distanciaEuclediana = arista->distanciaEuclediana;
 }
@@ -51,16 +45,16 @@ struct Tablahash {
         int inicio = item;
 
         while (this->contenido[item].concatenar != nullptr && strcmp(this->contenido[item].concatenar, Nombre) != 0) {
-            item = (item + 1) % cantidad;
-            if (item == inicio) {
-                return;
+          item = (item + 1) % cantidad;
+          if (item == inicio)
+          {
+          cout << "estas aqui" << endl;
+            return;
             }
         }
-
-        if (this->contenido[item].concatenar != nullptr) {
-            delete this->contenido[item].concatenar;
-            this->contenido[item].distanciaEuclediana = 0.0;
-        }
+          free(this->contenido[item].concatenar);
+          this->contenido[item].concatenar = NULL;
+          this->contenido[item].distanciaEuclediana = 0.0;
     }
 
     void mostrarTabla() {

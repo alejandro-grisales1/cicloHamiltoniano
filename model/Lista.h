@@ -118,13 +118,16 @@ struct Lista
         while (iterador2 != nullptr)
         {
           cadena[0] = iterador2->nombre[0];
-          cadena[1] = iterador->nombre[1];
+          cadena[1] = iterador->nombre[0];
           cadena[2] = '\0';
+          cout << "1" << "-> " << cadena << endl;
           tabla.Eliminar(cadena);
           cadena[0] = iterador->nombre[0];
-          cadena[1] = iterador2->nombre[1];
+          cadena[1] = iterador2->nombre[0];
           cadena[2] = '\0';
           tabla.Eliminar(cadena);
+          cout << "2" << cadena << endl;
+
 
           iterador2 = iterador2->siguiente;
         }
