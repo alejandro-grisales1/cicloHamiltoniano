@@ -2,72 +2,65 @@
 #define TablaHash_H
 
 #include <iostream>
+#include <cstring> // Para strdup
 #include "Arista.h"
 
 using namespace std;
 
-struct Tablahash
-{
-    //atributos
-    // char** contenido;
-    // Arista* nombre;
+struct Tablahash {
     Arista* contenido;
     int cantidad = 500;
 
-    //constructor
-    Tablahash(){
-      // this->cantidad = 230;
-      this->contenido = (Arista *)malloc(sizeof(Arista ) * this->cantidad);
-      // this->nombre = NULL;
-      // Inicializa el nombre y la distancia de cada Arista
+    Tablahash() {
+        this->contenido = (Arista *)malloc(sizeof(Arista ) * this->cantidad);
         for (int i = 0; i < cantidad; ++i) {
-            this->contenido[i].concatenar = NULL;
+            this->contenido[i].concatenar = nullptr;
             this->contenido[i].distanciaEuclediana = 0.0;
         }
     }
 
-    //metodo para adicionar arista a la tabla hash
     void Adicionar(Arista *&arista) {
-      char* Nombre = arista->concatenar;
-      // cout << "este es el nombre " << Nombre;
-      int item = function_hash(Nombre);
-      // cout << item;
-      // manejo de colision
-      while (this->contenido[item].concatenar != nullptr)
-      {
+    char* Nombre = arista->concatenar;
+    int item = function_hash(Nombre);
+    int inicio = item;
+
+    // Buscar un espacio vacío en la tabla hash
+    while (this->contenido[item].concatenar != nullptr) {
         item = (item + 1) % cantidad;
+        if (item == inicio) {
+            cout << "⚠️Error, la tabla hash está llena⚠️" << endl;
+            return;
         }
-        // this->contenido[item].concatenar = Nombre;
-        this->contenido[item].concatenar = (char*)malloc(sizeof(char) * 2);
-        char* iterador = this->contenido[item].concatenar;
-        while (*Nombre) {
-            *iterador = *Nombre;
-            Nombre++;
-            iterador++;
-        }
-        this->contenido[item].distanciaEuclediana = arista->distanciaEuclediana;
     }
 
-    void Eliminar(char * Nombre){
-      int item = function_hash(Nombre);
+    // Asignar y copiar la cadena
+    this->contenido[item].concatenar = (char*)malloc(sizeof(char) * 5);
+    strcpy(this->contenido[item].concatenar, Nombre);
+    this->contenido[item].distanciaEuclediana = arista->distanciaEuclediana;
+}
 
-      //se itera hasta encontrar la arista, si cuando se agrego hubo una colision 
-      while (this->contenido[item].concatenar != Nombre)
-      {
-        item = (item + 1) % cantidad;
-      }
-      if (this->contenido[item].concatenar == Nombre)
-      {
-        this->contenido[item].concatenar = NULL;
-        this->contenido[item].distanciaEuclediana = 0.0;
-      }
+
+    void Eliminar(char* Nombre) {
+        int item = function_hash(Nombre);
+        int inicio = item;
+
+        while (this->contenido[item].concatenar != nullptr && strcmp(this->contenido[item].concatenar, Nombre) != 0) {
+          item = (item + 1) % cantidad;
+          if (item == inicio)
+          {
+          cout << "estas aqui" << endl;
+            return;
+            }
+        }
+          free(this->contenido[item].concatenar);
+          this->contenido[item].concatenar = NULL;
+          this->contenido[item].distanciaEuclediana = 0.0;
     }
 
-    //metodo para mostrar la tabla hash
     void mostrarTabla() {
         cout << "Contenido de la tabla:" << endl;
         for (int i = 0; i < this->cantidad; i++) {
-            if (this->contenido[i].concatenar != NULL) {
+            if (this->contenido[i].concatenar != nullptr) {
                 cout << "Posición [" << i << "] Nombre: ";
                 mostrarCadena(this->contenido[i].concatenar);
                 cout << " Distancia: " << this->contenido[i].distanciaEuclediana << endl;
@@ -75,7 +68,6 @@ struct Tablahash
         }
     }
 
-    //metodo para mostrar la cadena del elemento
     void mostrarCadena(char* cadena) {
         while (*cadena) {
             cout << *cadena;
@@ -83,25 +75,20 @@ struct Tablahash
         }
     }
 
-    //metodo para mostrar el elemento pasandole un indice
-    void mostrarElemento(int indice){
-      cout << "Posición [" << indice << "] Nombre: " << this->contenido[indice].concatenar << " Distancia: " << this->contenido[indice].distanciaEuclediana << endl;
+    void mostrarElemento(int indice) {
+        cout << "Posición [" << indice << "] Nombre: " << this->contenido[indice].concatenar << " Distancia: " << this->contenido[indice].distanciaEuclediana << endl;
     }
 
-    //metodo para obtener la distancia de las aristas almacenadas en la tabla hash
-    double obtenerDistancia(char*nombre){
-      int item = function_hash(nombre);
+    double obtenerDistancia(char* nombre) {
+        int item = function_hash(nombre);
 
-      //se itera hasta encontrar la arista, si cuando se agrego hubo una colision 
-      while (this->contenido[item].concatenar != nombre)
-      {
-        item = (item + 1) % cantidad;
-      }
+        while (this->contenido[item].concatenar != nombre) {
+            item = (item + 1) % cantidad;
+        }
 
-      return this->contenido[item].distanciaEuclediana;
+        return this->contenido[item].distanciaEuclediana;
     }
 
-    //funcion para obtener el valor del indice en el que se va a almacenar
     int function_hash(char* Nombre) {
         int suma = 0;
         for (int i = 0; Nombre[i] != '\0'; i++) {
