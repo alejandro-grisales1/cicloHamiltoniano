@@ -9,35 +9,29 @@
 using namespace std;
 
 int main(){
-  //objetos
+  //TAD(tipo abstracto de dato)
   LeerCoordenadas leer;
   View vi;
   Lista li;
   Tablahash tabla;
 
   //variables
-  int op;
+  int op = 0;
 
-  //mostrar bienvenida
   vi.bienvenida();
 
-  //bucle de menu uno
   while (op != 7)
   {
-    //mostrar menu uno
     vi.menuUno();
-    //pedir opcion al usuario
     cin >> op;
+    cin.ignore();
 
-    if (op == 1)
+    if (op == 1) //la opcion uno lee el archivo .csv y crea una lista enlazada simple con nodos
     {
-      //la opcion uno lee el archivo .csv y crea una lista enlazada simple con nodos
       leer.leerArchivo(COORDENADAS, li,tabla);
-      tabla.mostrarTabla();
     }
-    else if (op == 2)
+    else if (op == 2) //la opcion dos muestra los nodos que hay y deja ingresar un nuevo nodo
     {
-      //la opcion dos muestra los nodos que hay y deja ingresar un nuevo nodo
       li.MostrarNodos();
       double x;
       double y;
@@ -45,7 +39,7 @@ int main(){
       //pide el nombre para agregar
       vi.v2_1();
       cin >> nombre;
-      //pide la coordenada x
+      // pide la coordenada x
       vi.v2_2();
       cin >> x;
       //pide la coordenada y
@@ -53,6 +47,8 @@ int main(){
       cin >> y;
       Nodo *nodo = new Nodo(nombre, x, y);
       li.Agregar(nodo,tabla);
+      free(nombre);
+      nombre = NULL;
     }
     else if (op == 3)
     {
@@ -62,7 +58,9 @@ int main(){
       //pide el nombre para eliminar
       vi.v3_1();
       cin >> nombre;
-      li.Eliminar(nombre);
+      li.Eliminar(nombre,tabla);
+      free(nombre);
+      nombre = NULL;
     }
     else if (op == 4)
     {
@@ -86,7 +84,8 @@ int main(){
         cin >> op;
         if (op == 1)
         {
-          /* code */
+          //la opcion uno del menu dos nos muestra la tabla hash como tabla de adyacensia
+          tabla.mostrarTabla();
         }else if (op == 2)
         {
           /* code */

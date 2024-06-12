@@ -4,45 +4,51 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-// #include "Nodo.h"
+#include <cstring> // Para std::strcpy
 #include "Lista.h"
 
 using namespace std;
 
-struct LeerCoordenadas
-{
-  string linea;
-  char delimitador = ',';
+struct LeerCoordenadas {
+    string linea;
+    char delimitador = ',';
 
-  void leerArchivo(const string &nombreArchivo,Lista &lista,Tablahash tabla)
-  {
-    ifstream archivo(nombreArchivo);
-    while (getline(archivo, linea))
-    {
-      // Aquí puedes procesar cada línea
-      // Por ejemplo, puedes usar stringstream para dividir la línea por comas
-      stringstream stream(linea);
-      string str, x_str, y_str;
-      double x, y;
-      getline(stream, str, delimitador);
-      getline(stream, x_str, delimitador);
-      getline(stream, y_str, delimitador);
+    void leerArchivo(const string &nombreArchivo, Lista &lista, Tablahash tabla) {
+        ifstream archivo(nombreArchivo);
+        if (!archivo.is_open()) {
+            cerr << "Error al abrir el archivo: " << nombreArchivo << endl;
+            return;
+        }
 
-      // Convertir las coordenadas a double
-      x = stod(x_str);
-      y = stod(y_str);
+        cout << endl;
+        while (getline(archivo, linea)) {
+            // Procesar cada línea usando stringstream para dividir la línea por comas
+            stringstream stream(linea);
+            string str, x_str, y_str;
+            double x, y;
+            getline(stream, str, delimitador);
+            getline(stream, x_str, delimitador);
+            getline(stream, y_str, delimitador);
 
-      const char *c = str.c_str();
-      char *nombre = (char *)malloc(sizeof(char) * 2);
+            // Convertir las coordenadas a double
+            x = stod(x_str);
+            y = stod(y_str);
 
-      nombre[0] = c[0];
-      nombre[1] = '\0';
-      cout << "Nodo: " << nombre << "("<< x << "," << y << ") ";
+            // Convertir el string a char*
+            const char *c = str.c_str();
+            char *nombre = (char *)malloc(sizeof(char) * 2);
+            strcpy(nombre, c);
 
-      Nodo *nodo = new Nodo(nombre, x, y);
-      lista.Agregar(nodo,tabla);
-    }
-    archivo.close();
+            cout << "Nodo: " << nombre << "(" << x << "," << y << ") ";
+
+            Nodo *nodo = new Nodo(nombre, x, y);
+            lista.Agregar(nodo, tabla);
+
+            // Liberar la memoria asignada a nombre
+            free(nombre);
+            nombre = NULL;
+        }
+        archivo.close();
     }
 };
 

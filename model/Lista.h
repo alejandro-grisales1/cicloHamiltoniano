@@ -2,6 +2,7 @@
 #define Lista_H
 
 #include <iostream>
+#include <cstring>
 #include "Nodo.h"
 #include "TablaHash.h"
 
@@ -21,6 +22,18 @@ struct Lista
     this->numero = 0;
   }
 
+  ~Lista() {
+        // Liberar todos los nodos de la lista
+        Nodo *actual = this->cabeza;
+        while (actual != nullptr) {
+            Nodo *temporal = actual;
+            actual = actual->siguiente;
+            delete[] temporal->nombre;
+            temporal->nombre = NULL;
+            delete temporal;
+        }
+    }
+
   //este metodo de agregar permite agregar nodos a la lista si el nodo existe 
   void Agregar(Nodo*&nuevoNodo,Tablahash tabla){
     //si la lista esta vacia agrega el elemento a la cabeza y a la cola
@@ -35,20 +48,19 @@ struct Lista
       while (iterador != NULL){
           if (iterador->nombre[0] == nuevoNodo->nombre[0])
           {
-            cout << endl
-                 << "El nodo: " << iterador->nombre << " ya esta creado." << endl;
+            cout << "⚠️Error, Este nodo ya esta creado⚠️" << endl;
             return;
             }
             iterador = iterador->siguiente;
         }
       this->cola->siguiente = nuevoNodo;
       this->cola = nuevoNodo;
-      Arista *nuevaAristaCabeza = new Arista(this->cabeza, this->cola);
-      tabla.Adicionar(nuevaAristaCabeza);
 
       Nodo *iterador2 = this->cabeza;
       while (iterador2 != this->cola)
       {
+        Arista *nuevaAristaCabeza = new Arista(iterador2, this->cola);
+        tabla.Adicionar(nuevaAristaCabeza);
         Arista *nuevaAristaCola = new Arista(this->cola, iterador2);
         tabla.Adicionar(nuevaAristaCola);
         iterador2 = iterador2->siguiente;
@@ -56,62 +68,81 @@ struct Lista
     }
     // this->cola = nuevoNodo;
     ++this->numero;
-    cout << "Nodo agregado exitosamente." << endl;
+    cout << "➕Nodo agregado exitosamente➕" << endl;
   }
 
   //esta opcion elimina el nodo seleccionado si este esta en la lista
-  void Eliminar(char * nombre){
-    if (this->cabeza == NULL)
-    {
-        cout << endl << "No hay nodos para eliminar!!!" << endl;
-    }
-    else
-    {
+  void Eliminar(const char *nombre,Tablahash tabla) {
+    if (this->cabeza == NULL) {
+        cout << "⚠️No hay nodos para eliminar⚠️" << endl;
+    } else {
         Nodo* iterador = this->cabeza;
         Nodo* actual = NULL;
 
         // Si el nodo a eliminar está en la cabeza
-        if (this->cabeza->nombre[0] == nombre[0])
-        {
-            this->cabeza = this->cabeza->siguiente;
+        if (this->cabeza->nombre[0] == nombre[0]) {
+            this->cabeza = iterador->siguiente;
+            iterador->siguiente = nullptr;
+            if (this->cabeza == NULL) {  // Si la lista queda vacía
+                this->cola = NULL;
+            }
             delete iterador;
-            cout << endl << "Nodo eliminado con exito!!!" << endl;
             --this->numero;
+            cout << "⛔Nodo eliminado exitosamente⛔" << endl;
             return;
         }
 
         // Buscar el nodo a eliminar
-        while (iterador != NULL )
-        {
+        while (iterador != NULL) {
             actual = iterador;
             iterador = iterador->siguiente;
-            if (iterador != NULL && iterador->nombre[0] == nombre[0])
-            {
+            if (iterador != NULL && iterador->nombre[0] == nombre[0]) {
                 break;
             }
         }
 
         // Si el nodo no está en la lista
-        if (iterador == NULL){
-          cout << endl << "No se encontro el nodo en la lista!!!" << endl;
-          return;
+        if (iterador == NULL) {
+            cout << "⚠️No se encontró el nodo en la lista⚠️" << endl;
+            return;
         }
 
         // Desconectar el nodo de la lista
         actual->siguiente = iterador->siguiente;
+        if (iterador == this->cola) {  // Si el nodo a eliminar es la cola
+            this->cola = actual;
+        }
+        
+        Nodo *iterador2 = this->cabeza;
+        char cadena[10];
+        while (iterador2 != nullptr)
+        {
+          cadena[0] = iterador2->nombre[0];
+          cadena[1] = iterador->nombre[1];
+          cadena[2] = '\0';
+          tabla.Eliminar(cadena);
+          cadena[0] = iterador->nombre[0];
+          cadena[1] = iterador2->nombre[1];
+          cadena[2] = '\0';
+          tabla.Eliminar(cadena);
+
+          iterador2 = iterador2->siguiente;
+        }
 
         // Liberar la memoria
+        iterador->siguiente = nullptr;
         delete iterador;
-        cout << endl << "Nodo eliminado con exito!!!" << endl;
         --this->numero;
+        cout << "⛔Nodo eliminado con exitosamente⛔" << endl;
     }
-  }
+}
+
 
   //metodo para actualizar las coordenadas de un nodo
   void Actualizar(){
     if (this->cabeza == NULL)
     {
-        cout << endl << "No hay nodos para actulizar!!!" << endl;
+        cout << endl << "⚠️No hay nodos para actulizar⚠️" << endl;
     }else
     {
       char *NodoActualizable = (char *)malloc(sizeof(char) * 2);
@@ -128,13 +159,14 @@ struct Lista
               cin >> iterador->x;
               cout << "Ingrese la nueva coordenada y del nodo " << iterador->nombre << ": ";
               cin >> iterador->y;
-              cout << endl
-                   << "Nodo actualizado exitosamente!!!" << endl;
+              cout << "✅Nodo actualizado exitosamente✅" << endl;
               return;
             }
           iterador = iterador->siguiente;
         }
-        cout << endl << "No se encontro el nodo..." << endl;
+        cout << "⚠️No se encontro el nodo⚠️" << endl;
+        free(NodoActualizable);
+        NodoActualizable = NULL;
     }
   }
 
@@ -142,13 +174,14 @@ struct Lista
   void MostrarNodos(){
     cout<< endl <<"Cantidad de nodos: "<<this->numero<<endl;
     Nodo * iterador = this->cabeza;
+    // cout << "Nodo " << iterador->nombre << endl;
     while(iterador != NULL){
       cout << "Nodo ";
       iterador->mostrarNodo();
       cout << endl;
       iterador = iterador->siguiente;
     }
-    cout << endl;
+    iterador = this->cabeza;
   }
 
   //este metodo permite mostrar los nodos y sus enlaces
