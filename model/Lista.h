@@ -35,7 +35,7 @@ struct Lista
     }
 
   //este metodo de agregar permite agregar nodos a la lista si el nodo existe 
-  void Agregar(Nodo*&nuevoNodo,Tablahash tabla){
+  void Agregar(Nodo*&nuevoNodo,Tablahash &tabla){
     //si la lista esta vacia agrega el elemento a la cabeza y a la cola
     if (this->cabeza == NULL && this->cola == NULL)
     {
@@ -72,7 +72,7 @@ struct Lista
   }
 
   //esta opcion elimina el nodo seleccionado si este esta en la lista
-  void Eliminar(const char *nombre,Tablahash tabla) {
+  void Eliminar(const char *nombre,Tablahash &tabla) {
     if (this->cabeza == NULL) {
         cout << "⚠️No hay nodos para eliminar⚠️" << endl;
     } else {
@@ -120,13 +120,11 @@ struct Lista
           cadena[0] = iterador2->nombre[0];
           cadena[1] = iterador->nombre[0];
           cadena[2] = '\0';
-          cout << "1" << "-> " << cadena << endl;
           tabla.Eliminar(cadena);
           cadena[0] = iterador->nombre[0];
           cadena[1] = iterador2->nombre[0];
           cadena[2] = '\0';
           tabla.Eliminar(cadena);
-          cout << "2" << cadena << endl;
 
 
           iterador2 = iterador2->siguiente;
